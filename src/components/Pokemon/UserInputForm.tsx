@@ -11,7 +11,7 @@ export const UserInputForm = () => {
       <br></br>
 
       <div>
-        neki novi tekst
+        best ever
       </div>
     </div>
   );
