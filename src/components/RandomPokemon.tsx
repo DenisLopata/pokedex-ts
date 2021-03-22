@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PokemonService } from "../service/Pokemon/PokemonService";
 import { Pokemon } from "../types/pokemon";
 import { EvolutionChart } from "./Pokemon/EvolutionChart";
-import loadingSpinner from "../content/images/fidgetSpinnerLoader.gif";
+import { UserInputForm } from "./Pokemon/UserInputForm";
 import { LoadingSpinner } from "./Shared/LoadingSpinner";
 
 var Pokedex = require("pokedex-promise-v2");
@@ -37,16 +37,17 @@ export const RandomPokemon = () => {
 
   return (
     <div>
+      <UserInputForm></UserInputForm>
       {pokemon?.sprites !== undefined ? (
         <div>
           <h1>name: {pokemon?.name}</h1>
-          <h2>id: {pokemon?.id}</h2>
+          <h4>id: {pokemon?.id}</h4>
           <img
             alt="imgSprite"
-            src={pokemon.sprites.other["official-artwork"].front_default}
+            src={pokemon?.sprites?.other["official-artwork"]?.front_default}
           ></img>
           {pokemonEvolutionData !== undefined &&
-          pokemonEvolutionData.length > 0 ? (
+          pokemonEvolutionData?.length > 0 ? (
             <EvolutionChart
               pokemonEvolutionData={pokemonEvolutionData}
               selectedPokemonID={pokemon?.id}
