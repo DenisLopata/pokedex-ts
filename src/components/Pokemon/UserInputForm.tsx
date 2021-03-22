@@ -11,7 +11,7 @@ export const UserInputForm = () => {
       <br></br>
 
       <div>
-        best ever
+        best ever2
       </div>
     </div>
   );
