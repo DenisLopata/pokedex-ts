@@ -20,7 +20,7 @@ export const EvolutionChart = ({
               {pokemon.name}
 
               {selectedPokemonID !== undefined &&
-              pokemon.id == selectedPokemonID ? (
+              pokemon.id === selectedPokemonID ? (
                 <img
                   style={{ border: "2px solid black" }}
                   width={120}

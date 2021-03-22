@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting on merge
+name: Custom deploy to Firebase Hosting on merge
 'on':
   push:
     branches:
@@ -23,7 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - run: npm ci && npm run build
+      - name: Building app
+        run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
