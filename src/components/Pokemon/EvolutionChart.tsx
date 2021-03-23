@@ -17,14 +17,20 @@ export const EvolutionChart = ({
           <h2>Evolution chart</h2>
           {pokemonEvolutionData?.map((pokemon: Pokemon.IPokemon) => (
             <div>
-              {pokemon.name}
-              <img
-                  style={pokemon.id === selectedPokemonID ? { border: "2px solid black" } : {border: "none"}}
+              <div>{pokemon.name}</div>
+              <div>
+                <img
+                  style={
+                    pokemon.id === selectedPokemonID
+                      ? { border: "2px solid black" }
+                      : { border: "none" }
+                  }
                   width={120}
                   height={120}
                   alt="imgSpriteEvolution"
                   src={pokemon.sprites.other["official-artwork"].front_default}
                 ></img>
+              </div>
             </div>
           ))}
         </div>
