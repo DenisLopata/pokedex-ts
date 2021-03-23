@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { PokemonService } from "../service/Pokemon/PokemonService";
 import { Pokemon } from "../types/pokemon";
 import { EvolutionChart } from "./Pokemon/EvolutionChart";
+import { PokemonDisplay } from "./Pokemon/PokemonDisplay";
 import { UserInputForm } from "./Pokemon/UserInputForm";
 import { LoadingSpinner } from "./Shared/LoadingSpinner";
-
-var Pokedex = require("pokedex-promise-v2");
-var P = new Pokedex();
 
 export const RandomPokemon = () => {
   const [pokemon, setPokemon] = useState<Pokemon.IPokemon>();
@@ -14,55 +12,59 @@ export const RandomPokemon = () => {
     Array<Pokemon.IPokemon>
   >();
 
-  const GetPokemon = () => {
+  const GetPokemon = async () => {
     setPokemonEvolutionData(Array<Pokemon.IPokemon>());
-    P.getPokemonByName(Math.floor(Math.random() * 898) + 1) // with Promise
-      .then(async function (response: Pokemon.IPokemon) {
-        console.log(response);
-        //set pokemon data to state
-        setPokemon(response);
+
+    await PokemonService.GetPokemonByID(Math.floor(Math.random() * 898) + 1) // with Promise
+      .then(async (response) => {
         //get species
         if (response !== undefined) {
-          let pokemonEvolutionDataResponse: Array<Pokemon.IPokemon> = await PokemonService.GetPokemonSpecies(
-            response.species.name
+          //set pokemon data to state
+          setPokemon(response);
+          console.log(response.species.name);
+          await PokemonService.GetEvolutionChartData(response.species.name).then(
+            (pokemonEvolutionDataResponse) => {
+              // set pokemon form evolution to state
+              setPokemonEvolutionData(pokemonEvolutionDataResponse);
+            }
           );
-          // set pokemon from evolution to state
-          setPokemonEvolutionData(pokemonEvolutionDataResponse);
         }
-      })
-      .catch(function (error: any) {
-        console.log("There was an ERROR: ", error);
       });
   };
 
   return (
     <div>
-      <UserInputForm></UserInputForm>
-      {pokemon?.sprites !== undefined ? (
-        <div>
-          <h1>name: {pokemon?.name}</h1>
-          <h4>id: {pokemon?.id}</h4>
-          <img
-            alt="imgSprite"
-            src={pokemon?.sprites?.other["official-artwork"]?.front_default}
-          ></img>
-          {pokemonEvolutionData !== undefined &&
-          pokemonEvolutionData?.length > 0 ? (
-            <EvolutionChart
-              pokemonEvolutionData={pokemonEvolutionData}
-              selectedPokemonID={pokemon?.id}
-            ></EvolutionChart>
-          ) : (
-            <LoadingSpinner width={120} height={120}></LoadingSpinner>
-          )}
-        </div>
-      ) : (
-        <div>
-          <LoadingSpinner width={240} height={240}></LoadingSpinner>
-          <div>round, round baby round, round</div>
-        </div>
-      )}
-      <button onClick={GetPokemon}>Get pokemon</button>
+      <div>
+        <UserInputForm></UserInputForm>
+      </div>
+      <div>
+        {pokemon?.sprites !== undefined ? (
+          <div>
+            <div>
+              <PokemonDisplay pokemon={pokemon}></PokemonDisplay>
+            </div>
+            <div>
+              {pokemonEvolutionData !== undefined &&
+              pokemonEvolutionData?.length > 0 ? (
+                <EvolutionChart
+                  pokemonEvolutionData={pokemonEvolutionData}
+                  selectedPokemonID={pokemon?.id}
+                ></EvolutionChart>
+              ) : (
+                <LoadingSpinner width={120} height={120}></LoadingSpinner>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div>
+            <LoadingSpinner width={240} height={240}></LoadingSpinner>
+            <div>round, round baby round, round</div>
+          </div>
+        )}
+      </div>
+      <div>
+        <button onClick={GetPokemon}>Get pokemon</button>
+      </div>
     </div>
   );
 };
