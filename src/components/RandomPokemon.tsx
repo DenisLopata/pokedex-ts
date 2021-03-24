@@ -40,7 +40,7 @@ export const RandomPokemon = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <div>
-            {/* <UserInputForm></UserInputForm> */}
+            <UserInputForm></UserInputForm>
           </div>
         </Grid>
       </Grid>
