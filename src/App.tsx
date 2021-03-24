@@ -1,12 +1,17 @@
-import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import { RandomPokemon } from './components/RandomPokemon';
+import React from "react";
+import "./App.css";
+import { RandomPokemon } from "./components/RandomPokemon";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from "./infrastructure/theme";
 
 function App() {
   return (
     <div className="App">
-      <RandomPokemon></RandomPokemon>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RandomPokemon></RandomPokemon>
+      </ThemeProvider>
     </div>
   );
 }
