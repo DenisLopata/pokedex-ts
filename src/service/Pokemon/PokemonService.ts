@@ -2,7 +2,6 @@ import { Pokemon } from "../../types/pokemon";
 import { PokemonServiceDAL } from "../PokemonDAL/PokemonServiceDAL";
 
 export namespace PokemonService {
-
   //get pokemon by id
   export const GetPokemonByID = (pokemonID: number) => {
     return PokemonServiceDAL.GetPokemonByID(pokemonID);
@@ -36,7 +35,11 @@ export namespace PokemonService {
         for (let i = 0; i < evolutions.length; i++) {
           await PokemonServiceDAL.GetPokemonByName(evolutions[i]).then(
             (poke) => {
-              pokemonEvolutionDataResponse.push(poke);
+              // some pokemon have wierd species name, different from pokemon name and we get no evolution data
+              // for example pokemon ID 642, check species name and pokemon name
+              if (poke !== undefined) {
+                pokemonEvolutionDataResponse.push(poke);
+              }
             }
           );
         }
@@ -51,7 +54,8 @@ export namespace PokemonService {
     return PokemonServiceDAL.GetPokemonSpeciesByName(speciesName).then(
       async (response) => {
         return await PokemonService.GetPokemonEvolutionChainData(
-          response.evolution_chain.url);
+          response.evolution_chain.url
+        );
       }
     );
   };

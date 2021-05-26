@@ -57,14 +57,21 @@ export const RandomPokemon = () => {
                 selectedPokemonID={pokemon?.id}
               ></EvolutionChart>
             ) : (
-              <LoadingSpinner width={120} height={120}></LoadingSpinner>
+              <LoadingSpinner
+                width={120}
+                height={120}
+                subText="Pokemon is the best!"
+              ></LoadingSpinner>
             )}
           </Grid>
         </Grid>
       ) : (
         <div>
-          <LoadingSpinner width={240} height={240}></LoadingSpinner>
-          <div>round, round baby round, round</div>
+          <LoadingSpinner
+            width={240}
+            height={240}
+            subText="round, round baby round, round"
+          ></LoadingSpinner>
         </div>
       )}
       <Grid container spacing={3}>
