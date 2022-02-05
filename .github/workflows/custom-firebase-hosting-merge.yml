@@ -1,3 +1,4 @@
+#build and deploy to firebase
 name: Custom deploy to Firebase Hosting on merge
 'on':
   push:
